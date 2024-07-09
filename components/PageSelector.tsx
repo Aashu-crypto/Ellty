@@ -1,14 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 
 export default function PageSelector() {
   const pages = ["Page 1", "Page 2", "Page 3", "Page 4"];
 
-  const [checkedItems, setCheckedItems] = useState(
+  interface CheckedItems {
+    all: boolean;
+    [key: string]: boolean;
+  }
+
+  const [checkedItems, setCheckedItems] = useState<CheckedItems>(
     pages.reduce((acc, page) => ({ ...acc, [page]: false }), { all: false })
   );
 
-  const handleAllChange = (event) => {
+  const handleAllChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
     const newCheckedItems = pages.reduce(
       (acc, page) => ({ ...acc, [page]: checked }),
@@ -17,7 +22,7 @@ export default function PageSelector() {
     setCheckedItems(newCheckedItems);
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
     setCheckedItems((prevState) => {
       const newState = { ...prevState, [name]: checked };
